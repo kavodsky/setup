@@ -1,0 +1,31 @@
+# ~/.config/starship.toml
+# Кастомний промпт: показує "andras" замість довгого системного логіна
+
+format = """
+[andras](bold cyan) 🔸 $directory$git_branch$git_status$python
+$character"""
+
+[directory]
+style = "bold #E5C07B"
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = " "
+style = "bold #C678DD"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold red"
+format = "([$all_status$ahead_behind]($style)) "
+
+[python]
+format = "[($virtualenv)]($style) "
+style = "bold green"
+detect_extensions = []
+detect_files = []
+detect_folders = []
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
