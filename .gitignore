@@ -1,1 +1,5 @@
+*.bak
+*.bak.*
 .DS_Store
+.gitconfig.personal
+.gitconfig.local

@@ -1,0 +1,56 @@
+###############################################################################
+# gitconfig → ~/.gitconfig
+#
+# Симлінк:  ln -sf ~/dotfiles/gitconfig ~/.gitconfig
+#
+# УВАГА: user.email тут службовий. Для особистих репозиторіїв тримай окремий
+# ~/.gitconfig.local і підключай через includeIf (див. кінець файлу).
+###############################################################################
+
+[user]
+	name = Andras Gyacsok
+	# email = ...        # заповни або винеси в includeIf нижче
+
+[init]
+	defaultBranch = main
+
+[core]
+	pager = delta
+	excludesfile = ~/.gitignore_global
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true          # n / N — стрибки між файлами в дифі
+	line-numbers = true      # номери рядків обабіч
+	hyperlinks = true        # клікабельні шляхи (працює в iTerm2)
+
+[merge]
+	conflictstyle = zdiff3   # у конфлікті видно спільного предка, не лише дві версії
+
+[diff]
+	colorMoved = default     # переміщені блоки — іншим кольором, ніж змінені
+	algorithm = histogram    # точніше зіставлення рядків, менше фантомних змін
+
+[pull]
+	rebase = true            # без merge-комітів "Merge branch 'main'"
+
+[push]
+	autoSetupRemote = true   # перший push без --set-upstream
+
+[rerere]
+	enabled = true           # запам'ятовує вирішені конфлікти й повторює їх
+
+[fetch]
+	prune = true             # прибирає локальні посилання на видалені гілки
+
+[column]
+	ui = auto
+
+[branch]
+	sort = -committerdate    # свіжі гілки зверху в git branch
+
+# Окремий email для особистих проєктів:
+# [includeIf "gitdir:~/personal/"]
+# 	path = ~/.gitconfig.personal
