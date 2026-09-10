@@ -37,9 +37,27 @@ brew "eza"                  # заміна ls
 brew "bat"                  # cat із підсвіткою синтаксису
 brew "fzf"                  # інтерактивний нечіткий пошук
 brew "ripgrep"              # швидкий grep по деревах
+brew "fd"                   # швидкий find зі зрозумілим синтаксисом
+brew "zoxide"               # стрибки по каталогах за частотою (z замість cd)
 brew "tree"                 # дерево каталогів
 brew "jq"                   # обробка JSON у пайпах
+brew "yq"                   # те саме для YAML: helm-чарти, k8s-маніфести, CI-конфіги
 brew "wget"                 # завантаження файлів
+
+
+###############################################################################
+# GNU-userland
+# macOS має BSD-версії утиліт, у яких прапорці розходяться з GNU (`sed -i ''`
+# проти `sed -i`, `date -v-1m` проти `date -d`, немає `readlink -f`).
+# Дає gsed, gdate, gstat, greadlink, gxargs — з префіксом g, щоб не ламати
+# системні скрипти. Щоб писати скрипти однаково локально й у CI, додай у
+# config.fish:
+#   fish_add_path (brew --prefix coreutils)/libexec/gnubin
+#   fish_add_path (brew --prefix gnu-sed)/libexec/gnubin
+###############################################################################
+
+brew "coreutils"
+brew "gnu-sed"
 
 
 ###############################################################################
@@ -54,8 +72,12 @@ brew "sops"                 # редагування зашифрованих к
 # Git та збірка
 ###############################################################################
 
+brew "git"                  # свіжий git замість системного від Apple
 brew "gh"                   # GitHub CLI
 brew "git-lfs"              # великі файли в git
+brew "git-delta"            # диф із підсвіткою синтаксису; вмикається в ~/.gitconfig:
+                            #   [core] pager = delta
+                            #   [interactive] diffFilter = delta --color-only
 brew "cmake"                # кросплатформна збірка
 brew "just"                 # запуск проєктних команд (justfile)
 brew "go-task"              # альтернативний таск-раннер (Taskfile.yml)
@@ -89,9 +111,12 @@ uv "ruff"                   # лінтер і форматер Python, пост�
 brew "colima"               # VM для контейнерів на macOS (заміна Docker Desktop)
 brew "docker"               # CLI docker
 brew "docker-compose"       # багатоконтейнерні середовища
+brew "kubernetes-cli"       # kubectl — без нього helm не працює
 brew "helm"                 # пакети Kubernetes
 brew "awscli"               # CLI AWS
-brew "infracost"            # оцінка вартості Terraform-змін
+brew "infracost"            # оцінка вартості Terraform-змін.
+                            # Terraform/OpenTofu свідомо не в списку — поки
+                            # не потрібні; тоді й infracost без застосування
 
 
 ###############################################################################
@@ -118,8 +143,14 @@ brew "mmseqs2"              # швидкий пошук і кластериза�
 # Локальні LLM та AI-інструменти
 ###############################################################################
 
-brew "ollama"               # запуск локальних моделей
+brew "ollama", restart_service: :changed   # сервіс перезапускається лише
+                            # при оновленні пакета, не при кожному bundle
 brew "llama.cpp"            # інференс GGUF напряму
+brew "macmon"               # реальне споживання CPU/GPU/ANE та unified memory
+                            # під час інференсу; без sudo, Activity Monitor
+                            # цих даних не показує
+brew "mlx-lm"               # MLX на Apple Silicon: mlx_lm.server (OpenAI-сумісний
+                            # ендпоінт), generate, chat, convert, lora
 brew "hf"                   # CLI Hugging Face Hub
 brew "anomalyco/tap/opencode", trusted: true   # AI-агент для терміналу
 
