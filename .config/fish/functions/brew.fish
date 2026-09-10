@@ -79,6 +79,7 @@ function __brewfile_add -a brewfile pkg is_cask
         return 0
     end
 
+    cp $brewfile $brewfile.bak
     echo "$entry" >>$brewfile
     echo "→ Додано в Brewfile: $entry"
 end
@@ -97,6 +98,17 @@ function __brewfile_remove -a brewfile pkg
         # і патерн гарантовано непорожній.
         set -l tmp (mktemp)
         grep -vF -- "$entry" $brewfile >$tmp
+
+        # Запобіжник: якщо результат порожній, а вихідний файл ні —
+        # щось пішло не так, краще не чіпати. Саме цей випадок колись
+        # знищив Brewfile повністю.
+        if not test -s $tmp; and test -s $brewfile
+            echo "⚠ Відмова: результат порожній, Brewfile не змінено"
+            rm -f $tmp
+            continue
+        end
+
+        cp $brewfile $brewfile.bak
         mv $tmp $brewfile
         echo "→ Видалено з Brewfile: $entry"
     end
