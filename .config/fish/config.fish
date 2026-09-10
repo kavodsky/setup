@@ -31,6 +31,12 @@ end
 
 # --- Аліаси ------------------------------------------------------------------
 
+# eza замість ls
+alias ls='eza --group-directories-first'
+alias ll='eza -l --group-directories-first --git'
+alias la='eza -la --group-directories-first --git'
+alias lt='eza --tree --level=2'
+
 # швидкий бекап поточної папки з тими ж виключеннями
 alias tarhere='tar --exclude-from="$HOME/.tarignore" -czvf (basename (pwd)).tar.gz .'
 
