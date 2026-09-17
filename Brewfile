@@ -183,7 +183,6 @@ brew "handbrake"            # транскодування відео (CLI)
 #   brew uses --installed icu4c@76
 ###############################################################################
 
-brew "icu4c@76"             # Unicode/локалізація
 brew "libmagic"             # визначення типів файлів (потрібне для python-magic)
 brew "python-tk@3.13"       # Tk для Python GUI (matplotlib TkAgg тощо)
 
